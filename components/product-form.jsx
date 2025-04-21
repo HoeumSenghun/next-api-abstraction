@@ -1,19 +1,35 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
+import { getCategories } from "@/lib/api"
 
 export function ProductForm({ initialData, onSubmit }) {
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
+  const [categories, setCategories] = useState([])
 
   const [formData, setFormData] = useState({
     title: initialData?.title || "",
     price: initialData?.price || 0,
     description: initialData?.description || "",
-    category: initialData?.category || "",
-    image: initialData?.image || "",
+    category: initialData?.category?.name || initialData?.category || "",
+    image: initialData?.images?.[0] || initialData?.image || "",
   })
+
+  useEffect(() => {
+    // Fetch categories when component mounts
+    const fetchCategories = async () => {
+      try {
+        const categoriesData = await getCategories()
+        setCategories(categoriesData)
+      } catch (error) {
+        console.error("Error fetching categories:", error)
+      }
+    }
+
+    fetchCategories()
+  }, [])
 
   const handleChange = (e) => {
     const { name, value } = e.target
@@ -32,6 +48,7 @@ export function ProductForm({ initialData, onSubmit }) {
       router.push("/products")
     } catch (error) {
       console.error("Error submitting form:", error)
+      alert(`Error: ${error.message}`)
     } finally {
       setIsLoading(false)
     }
@@ -100,10 +117,21 @@ export function ProductForm({ initialData, onSubmit }) {
             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
           >
             <option value="">Select a category</option>
-            <option value="electronics">Electronics</option>
-            <option value="jewelery">Jewelery</option>
-            <option value="men's clothing">Men's Clothing</option>
-            <option value="women's clothing">Women's Clothing</option>
+            {categories.length > 0 ? (
+              categories.map((category) => (
+                <option key={category.id} value={category.name}>
+                  {category.name}
+                </option>
+              ))
+            ) : (
+              <>
+                <option value="electronics">Electronics</option>
+                <option value="furniture">Furniture</option>
+                <option value="clothes">Clothes</option>
+                <option value="shoes">Shoes</option>
+                <option value="others">Others</option>
+              </>
+            )}
           </select>
         </div>
 
