@@ -11,7 +11,7 @@ export default function Home() {
           href="/products"
           className="inline-flex items-center px-6 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors"
         >
-          View Products <ArrowRight className="ml-2" size={20} />
+          Got To View Products <ArrowRight className="ml-2" size={20} />
         </Link>
       </div>
     </main>
