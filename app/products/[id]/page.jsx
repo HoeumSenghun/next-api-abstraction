@@ -6,7 +6,7 @@ import { getProduct } from "@/lib/api"
 export default async function ProductDetailPage({ params }) {
   const product = await getProduct(Number.parseInt(params.id))
 
-  // Get the first image from the images array or use a placeholder
+  
   const imageUrl = product.images?.[0] || product.image || "/placeholder.svg"
 
   return (
