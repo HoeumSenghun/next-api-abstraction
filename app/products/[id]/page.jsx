@@ -12,7 +12,7 @@ export default async function ProductDetailPage({ params }) {
   return (
     <div className="container mx-auto py-8 px-4">
       <Link href="/products" className="inline-flex items-center text-blue-600 mb-6">
-        <ArrowLeft size={18} className="mr-2" /> Back to Products
+        <ArrowLeft size={18} className="mr-2" /> 
       </Link>
 
       <div className="bg-white rounded-lg shadow-md overflow-hidden">
